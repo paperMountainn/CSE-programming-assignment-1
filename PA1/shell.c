@@ -344,4 +344,5 @@ int main(int argc, char **argv)
   printf("The fetched line is : %s \n", line);
   
   return 0;
+  
 }
