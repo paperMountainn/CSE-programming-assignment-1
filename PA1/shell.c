@@ -272,7 +272,15 @@ char *shellReadLine(void)
   // 3. Fetch an entire line from input stream stdin using getline() function. getline() will store user input onto the memory location allocated in (1)
   // 4. Return the char*
 
-  return NULL;
+  size_t bufferSize = 100; //arbitrary number 
+  char *buffer = (char*)malloc(sizeof(char*)*bufferSize);
+  if(buffer==NULL){
+    exit(1); //not sure if we should exit or just return NULL
+    //return NULL;
+  } else{
+    getline(&buffer,&bufferSize,stdin);
+    return buffer;
+  }
 }
 
 /**
@@ -321,11 +329,19 @@ void shellLoop(void)
 
 int main(int argc, char **argv)
 {
+  //original function
+  // printf("Shell Run successful. Running now: \n");
 
+  // // Run command loop
+  // shellLoop();
+
+  // return 0;
+
+  //test Task 1
   printf("Shell Run successful. Running now: \n");
-
-  // Run command loop
-  shellLoop();
-
+ 
+  char* line = shellReadLine();
+  printf("The fetched line is : %s \n", line);
+  
   return 0;
 }
