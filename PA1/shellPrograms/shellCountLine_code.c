@@ -16,6 +16,31 @@ int shellCountLine_code(char **args)
     // 7. Print out how many lines are there in this particular filename
     // 8. Return 1, to exit program
 
+    int numLinesOutput = 0;
+    size_t bufferSize = 100; //arbitrary number 
+    char *buffer = (char*)malloc(sizeof(char*)*bufferSize);
+    if(buffer==NULL){
+        printf("buffer malloc not ok, exit");
+        exit(1); //not sure if we should exit or just return NULL
+        //return NULL;
+    }
+    
+    //open file
+    FILE* fp = fopen(args[1], "r");
+    if(fp == NULL) { //error 
+        printf("File not found\n");
+        return 0; // should we exit the program instead?
+    } else{
+        //loop through the whole file
+        while(getline(&buffer, &bufferSize,fp)!=-1){
+            numLinesOutput++;
+        }
+        //close file
+        fclose(fp);
+    }
+
+    printf("There are %d lines in %s\n", numLinesOutput,args[1]);
+    
     return 1;
 }
 
