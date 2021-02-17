@@ -246,14 +246,77 @@ int shellUsage(char **args)
  */
 int shellExecuteInput(char **args)
 {
+
+  int res;
+  pid_t pid;
   /** TASK 3 **/
 
   // 1. Check if args[0] is NULL. If it is, an empty command is entered, return 1
+  if (args[0] == NULL){
+    printf("No command entered! Please enter command! \n");
+
+    return 1;
+  }
+
+  else{
+    printf("shellExecuteInput is running and args[0] read is: %s\n",args[0]);
+
+    // iterate through to see whether args[0] is in buildInCommands, and not cd, help, exit or usage
+    for (int i = 0; i < numOfBuiltinFunctions(); i++){
+
+      // print out all commands
+      printf("build_in_command is %s \n", builtin_commands[i]);
+
+      // compare if arg[0] == builtin_commands[i]
+      // if res == 0, means args[0] == builtin_commands[i], then break the for loop and move on
+      res = strcmp(args[0], builtin_commands[i]);
+      if (res == 0){
+        break;
+      }
+      
+    }
+
+    // if command is valid, do fork() to execute command
+    if (res == 0){
+      pid = fork();
+
+      // if child process successfully created
+      if (pid < 0){
+        fprintf(stderr, "Fork has failed. Exiting now");
+        return 1; // exit error
+      }
+
+      // child process do this
+      else if (pid == 0){
+        // load a new program into the child
+        // execlp basically replaced the entire process image, child executes a different thing from parent
+        execlp("/bin/ls", "ls", NULL);
+        
+      }
+
+      // parent do this
+      else{
+       wait(NULL);
+       printf("Child has exited.\n");
+
+      }
+
+    }
+
+    // if command invalid, then exit 
+
+    else{
+      printf("Command does not exist, exiting now. \n");
+      exit(1);
+    }
+
+  }
   // 2. Otherwise, check if args[0] is in any of our builtin_commands, and that it is NOT cd, help, exit, or usage.
   // 3. If conditions in (2) are satisfied, perform fork(). Check if fork() is successful.
   // 4. For the child process, execute the appropriate functions depending on the command in args[0]. Pass char ** args to the function.
   // 5. For the parent process, wait for the child process to complete and fetch the child's return value.
   // 6. Return the child's return value to the caller of shellExecuteInput
+
   // 7. If args[0] is not in builtin_command, print out an error message to tell the user that command doesn't exist and return 1
 
   return 1;
@@ -292,11 +355,43 @@ char **shellTokenizeInput(char *line)
 
   /** TASK 2 **/
   // 1. Allocate a memory space to contain pointers (addresses) to the first character of each word in *line. Malloc should return char** that persists after the function terminates.
+
+  size_t bufferSize = 8; //arbitrary numberS
+  char** tokenBuffer = malloc(sizeof(char *) * bufferSize);
+  char* token = strtok(line, SHELL_INPUT_DELIM);
+
+  int index = 0;
+
+
+  // 2. Check that char ** that is returend by malloc is not NULL
+  if (tokenBuffer == NULL){
+    exit(1);
+  } 
+  else{
+    tokenBuffer[index] = token;
+    index++;
+
+    while (token != NULL){
+      token = strtok(NULL, SHELL_INPUT_DELIM);
+      tokenBuffer[index] = token;
+      index++;
+    }
+
+    // NULL terminate
+    tokenBuffer[index] = NULL;
+
+  }
+  // 3. Tokenize the *line using strtok() function
+  // 4. Return the char **
+
+  return tokenBuffer;
+
+  /** TASK 2 **/
+  // 1. Allocate a memory space to contain pointers (addresses) to the first character of each word in *line. Malloc should return char** that persists after the function terminates.
   // 2. Check that char ** that is returend by malloc is not NULL
   // 3. Tokenize the *line using strtok() function
   // 4. Return the char **
 
-  return NULL;
 }
 
 /**
