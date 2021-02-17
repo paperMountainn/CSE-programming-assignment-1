@@ -290,21 +290,24 @@ int shellExecuteInput(char **args)
         printf("fork() works, waiting for child \n");
         // load a new program into the child
         // execlp basically replaced the entire process image, child executes a different thing from parent
+
+        // execute command based on command_index, using builtin_commandFunc[] struc
         builtin_commandFunc[command_index](args);
       }
 
       // parent do this
       else{
-        // need to wait for child to terminate, exit status???
-       wait(NULL);
-       printf("Child has exited.\n");
+        // check child exit status
+        int* status;
+        waitpid(pid, &status, WUNTRACED);      
+        wait(NULL);
+        printf("Child has exited.\n");
 
       }
 
     }
 
     // if command invalid, then exit 
-
     else{
       printf("Invalid command received. Type help to see what commands are implemented \n");
       exit(1);
