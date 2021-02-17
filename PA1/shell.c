@@ -249,6 +249,7 @@ int shellExecuteInput(char **args)
 
   int res;
   pid_t pid;
+  int command_index;
   /** TASK 3 **/
 
   // 1. Check if args[0] is NULL. If it is, an empty command is entered, return 1
@@ -259,18 +260,16 @@ int shellExecuteInput(char **args)
   }
 
   else{
-    printf("shellExecuteInput is running and args[0] read is: %s\n",args[0]);
-
     // iterate through to see whether args[0] is in buildInCommands, and not cd, help, exit or usage
     for (int i = 0; i < numOfBuiltinFunctions(); i++){
 
-      // print out all commands
-      printf("build_in_command is %s \n", builtin_commands[i]);
-
       // compare if arg[0] == builtin_commands[i]
-      // if res == 0, means args[0] == builtin_commands[i], then break the for loop and move on
+      // if res == 0, means args[0] == builtin_commands[i], then break the for loop and move on to execute it 
       res = strcmp(args[0], builtin_commands[i]);
+
       if (res == 0){
+        command_index = i;
+
         break;
       }
       
@@ -280,7 +279,7 @@ int shellExecuteInput(char **args)
     if (res == 0){
       pid = fork();
 
-      // if child process successfully created
+      // check error
       if (pid < 0){
         fprintf(stderr, "Fork has failed. Exiting now");
         return 1; // exit error
@@ -288,14 +287,15 @@ int shellExecuteInput(char **args)
 
       // child process do this
       else if (pid == 0){
+        printf("fork() works, waiting for child \n");
         // load a new program into the child
         // execlp basically replaced the entire process image, child executes a different thing from parent
-        execlp("/bin/ls", "ls", NULL);
-        
+        builtin_commandFunc[command_index](args);
       }
 
       // parent do this
       else{
+        // need to wait for child to terminate, exit status???
        wait(NULL);
        printf("Child has exited.\n");
 
@@ -306,7 +306,7 @@ int shellExecuteInput(char **args)
     // if command invalid, then exit 
 
     else{
-      printf("Command does not exist, exiting now. \n");
+      printf("Invalid command received. Type help to see what commands are implemented \n");
       exit(1);
     }
 
@@ -432,11 +432,17 @@ int main(int argc, char **argv)
 
   // return 0;
 
-  //test Task 1
-  printf("Shell Run successful. Running now: \n");
+  // Test Task 3
+ printf("Shell Run successful. Running now: \n");
  
-  char* line = shellReadLine();
-  printf("The fetched line is : %s \n", line);
-  
-  return 0;
+ char* line = shellReadLine();
+ printf("The fetched line is : %s \n", line);
+ 
+ char** args = shellTokenizeInput(line);
+ printf("The first token is %s \n", args[0]);
+ printf("The second token is %s \n", args[1]);
+ 
+ shellExecuteInput(args);
+ 
+ return 0;
 }
