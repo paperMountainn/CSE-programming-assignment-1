@@ -329,7 +329,6 @@ char **shellTokenizeInput(char *line)
   // 3. Tokenize the *line using strtok() function
   // 4. Return the char **
 
-  return NULL;
 }
 
 /**
@@ -370,11 +369,15 @@ int main(int argc, char **argv)
 
   // return 0;
 
-  //test Task 1
-  printf("Shell Run successful. Running now: \n");
+  // Test Task 2
+ printf("Shell Run successful. Running now: \n");
  
-  char* line = shellReadLine();
-  printf("The fetched line is : %s \n", line);
-  
-  return 0;
+ char* line = shellReadLine();
+ printf("The fetched line is : %s \n", line);
+ 
+ char** args = shellTokenizeInput(line);
+ printf("The first token is %s \n", args[0]);
+ printf("The second token is %s \n", args[1]);
+ 
+ return 0;
 }
