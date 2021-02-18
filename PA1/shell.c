@@ -433,6 +433,7 @@ int main(int argc, char **argv)
   // return 0;
 
   // Test Task 3
+
  printf("Shell Run successful. Running now: \n");
  
  char* line = shellReadLine();
@@ -441,7 +442,7 @@ int main(int argc, char **argv)
  char** args = shellTokenizeInput(line);
  printf("The first token is %s \n", args[0]);
  printf("The second token is %s \n", args[1]);
- 
+
  shellExecuteInput(args);
  
  return 0;
