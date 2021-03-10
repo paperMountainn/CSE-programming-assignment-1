@@ -347,8 +347,8 @@ int shellExecuteInput(char **args)
         }
     
 
-        }
       }
+    }
 
     // if command invalid, then exit 
     else{
