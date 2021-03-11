@@ -343,8 +343,10 @@ int shellExecuteInput(char **args)
           exit_status = WEXITSTATUS(status);
           printf("exit status of child is %d \n", exit_status);
           printf("Child has exited.\n");
-
+          
+          //return exit_status; //idk if this is needed Hannah
         }
+
     
 
         }
