@@ -21,15 +21,14 @@ int shellCountLine_code(char **args)
     char *buffer = (char*)malloc(sizeof(char*)*bufferSize);
     if(buffer==NULL){
         printf("buffer malloc not ok, exit");
-        exit(1); //not sure if we should exit or just return NULL
-        //return NULL;
+        return 1;
     }
     
     //open file
     FILE* fp = fopen(args[1], "r");
     if(fp == NULL) { //error 
         printf("File not found\n");
-        return 0; // should we exit the program instead?
+        return 1; 
     } else{
         //loop through the whole file
         while(getline(&buffer, &bufferSize,fp)!=-1){
