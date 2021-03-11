@@ -335,22 +335,27 @@ int shellExecuteInput(char **args)
         // not sure how this works?????
         waitpid(pid, &status, WUNTRACED);      
         int exit_status = 0;
-        
+
+        //thinking of putting this outside 
+        //cause they asked us to return the exit status of the child
+        // obtain exit_status of child
+        exit_status = WEXITSTATUS(status);
+
         //if child terminates properly, WIFEXITED(status) returns TRUE
         if (WIFEXITED(status)){
 
-          // obtain exit_status of child
-          exit_status = WEXITSTATUS(status);
           printf("exit status of child is %d \n", exit_status);
           printf("Child has exited.\n");
           
-          //return exit_status; //idk if this is needed Hannah
         }
 
-    
+        return exit_status;
 
-        }
+
       }
+
+      
+    }
 
     // if command invalid, then exit 
     else{
