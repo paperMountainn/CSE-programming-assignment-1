@@ -222,6 +222,15 @@ int shellUsage(char **args)
 {
   int functionIndex = -1;
 
+
+  // added preconditions, must have an argument...
+  printf("shellUsage is called! \n");
+  if (args[1] == NULL)
+  {
+    fprintf(stderr, "CSEShell: expected argument to \"usage\"\n");
+    exit(0);
+  }
+
   // Check if the commands exist in the command list
   for (int i = 0; i < numOfBuiltinFunctions(); i++)
   {
@@ -289,6 +298,7 @@ int shellExecuteInput(char **args)
   int res;
   pid_t pid;
   int command_index;
+  
   /** TASK 3 **/
 
   // 1. Check if args[0] is NULL. If it is, an empty command is entered, return 1
@@ -298,27 +308,48 @@ int shellExecuteInput(char **args)
     return 1;
   }
 
+
   else{
     // iterate through to see whether args[0] is in buildInCommands, and not cd, help, exit or usage
     for (int i = 0; i < numOfBuiltinFunctions(); i++){
 
       // compare if arg[0] == builtin_commands[i]
-      // if res == 0, means args[0] == builtin_commands[i], then break the for loop and move on to execute it 
+      // if res = 0, means args[0] == builtin_commands[i], then break the for loop and move on to execute it 
+      // res = 0 : args[0] and commands same, so we need to execute user's command
+      // if res = 1: no valid commands found
       res = strcmp(args[0], builtin_commands[i]);
 
+
+      // command is part of the builtin_commands! execute it!
       if (res == 0){
+
         command_index = i;
 
+        if (strcmp("cd", builtin_commands[command_index]) == 0){
+          return shellCD(args);
+        }
+        if (strcmp("help", builtin_commands[command_index]) == 0){
+          return shellHelp(args);
+        }
+        if (strcmp("usage", builtin_commands[command_index]) == 0){
+          return shellUsage(args);
+        }
+        if (strcmp("exit", builtin_commands[command_index]) == 0){
+          return shellExit(args);
+        }
+
+      // if the command is not cd, help, usage, exit, simply set command_index to i, then break the for loop
         break;
       }
       
     }
 
-    // if command is valid, do fork() to execute command
+    // if command is valid, do fork() to create a child process to execute command
     if (res == 0){
+      int child_task_return = 0;
       pid = fork();
 
-      // check error
+      // check error for fork
       if (pid < 0){
         fprintf(stderr, "Fork has failed. Exiting now");
         return 1; // exit error
@@ -329,24 +360,41 @@ int shellExecuteInput(char **args)
         printf("fork() works, waiting for child \n");
         // load a new program into the child
         // execlp basically replaced the entire process image, child executes a different thing from parent
-        builtin_commandFunc[command_index](args);
+
+        // execute command based on command_index, using builtin_commandFunc[] struc
+        child_task_return =  builtin_commandFunc[command_index](args);
+        exit(1);
       }
 
-      // parent do this
+      // 5. For the parent process, wait for the child process to complete and fetch the child's return value.
       else{
-        // need to wait for child to terminate, exit status???
-       wait(NULL);
-       printf("Child has exited.\n");
+        // check child exit status
 
+        int status;
+        // not sure how this works?????
+        waitpid(pid, &status, WUNTRACED);      
+        int exit_status = 0;
+        
+        //if child terminates properly, WIFEXITED(status) returns TRUE
+        if (WIFEXITED(status)){
+
+          // obtain exit_status of child
+          exit_status = WEXITSTATUS(status);
+          printf("exit status of child is %d \n", exit_status);
+          printf("Child has exited.\n");
+          
+          //return exit_status; //idk if this is needed Hannah
+        }
+
+    
+
+        }
       }
-
-    }
 
     // if command invalid, then exit 
-
     else{
       printf("Invalid command received. Type help to see what commands are implemented \n");
-      exit(1);
+      return 1;
     }
 
   }
@@ -376,6 +424,7 @@ char *shellReadLine(void)
 
   size_t bufferSize = 100; //arbitrary number 
   char *buffer = (char*)malloc(sizeof(char*)*bufferSize);
+  
   if(buffer==NULL){
     exit(1); //not sure if we should exit or just return NULL
     //return NULL;
@@ -395,7 +444,9 @@ char **shellTokenizeInput(char *line)
   /** TASK 2 **/
   // 1. Allocate a memory space to contain pointers (addresses) to the first character of each word in *line. Malloc should return char** that persists after the function terminates.
 
-  size_t bufferSize = 8; //arbitrary numberS
+  size_t bufferSize = 8; //arbitrary numbers
+
+  // tokenBuffer is an array of tokenized inputs, which we can access with tokenBuffer[index]
   char** tokenBuffer = malloc(sizeof(char *) * bufferSize);
   char* token = strtok(line, SHELL_INPUT_DELIM);
 
