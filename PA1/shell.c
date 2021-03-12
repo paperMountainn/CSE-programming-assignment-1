@@ -358,7 +358,7 @@ int shellExecuteInput(char **args)
 
       // child process do this
       else if (pid == 0){
-        printf("fork() works, waiting for child \n");
+        // printf("fork() works, waiting for child \n");
         // load a new program into the child
         // execlp basically replaced the entire process image, child executes a different thing from parent
 
@@ -382,12 +382,12 @@ int shellExecuteInput(char **args)
         exit_status = WEXITSTATUS(status);
 
         //if child terminates properly, WIFEXITED(status) returns TRUE
-        if (WIFEXITED(status)){
+        // if (WIFEXITED(status)){
 
-          printf("exit status of child is %d \n", exit_status);
-          printf("Child has exited.\n");
+        //   printf("exit status of child is %d \n", exit_status);
+        //   printf("Child has exited.\n");
           
-        }
+        // }
 
         return exit_status;
 
