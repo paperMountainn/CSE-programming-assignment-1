@@ -113,6 +113,7 @@ int shellCountLine(char **args)
   if(execvp_return_val == -1){
     printf("error in calling countline using execvp\n");
   }
+  
   return 1;
 }
 
@@ -363,7 +364,7 @@ int shellExecuteInput(char **args)
 
         // execute command based on command_index, using builtin_commandFunc[] struc
         child_task_return =  builtin_commandFunc[command_index](args);
-        exit(1);
+        exit(0);
       }
 
       // 5. For the parent process, wait for the child process to complete and fetch the child's return value.
@@ -499,7 +500,7 @@ void shellLoop(void)
   //instantiate local variables
   char *line;  // to accept the line of string from user
   char **args; // to tokenize them as arguments separated by spaces
-  int status;  // to tell the shell program whether to terminate shell or not
+  int status;  // to tell the shell program whether to terminate shell or not // not used...?
 
 
   /** TASK 5 **/
@@ -512,6 +513,7 @@ void shellLoop(void)
 
     // 2. clear the buffer and move the output to the console using fflush
     fflush(stdin);
+    fflush(stdout);
 
     // 3. invoke shellReadLine() and store the output at line
     line = shellReadLine();
@@ -519,9 +521,11 @@ void shellLoop(void)
     // 4. invoke shellTokenizeInput(line) and store the output at args**
     args = shellTokenizeInput(line);
 
+    // 8. check if shellExecuteInput returns 1. If yes, loop back to Step 1 and prompt user with new input. Otherwise, exit the shell. 
     if (shellExecuteInput(args) == 1){
       shellLoop();
     }
+
     else{
       exit(0);
     }
@@ -529,14 +533,13 @@ void shellLoop(void)
     // 5. execute the tokens using shellExecuteInput(args)
     shellExecuteInput(args);
 
-
     // 6. free memory location containing the strings of characters
     free(line);
 
     // 7. free memory location containing char* to the first letter of each word in the input string
     free(args);
 
-    // 8. check if shellExecuteInput returns 1. If yes, loop back to Step 1 and prompt user with new input. Otherwise, exit the shell. 
+
 
 }
 
