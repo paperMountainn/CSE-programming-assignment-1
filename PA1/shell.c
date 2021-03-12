@@ -14,8 +14,14 @@ int shellFind(char **args)
   // 3. A successful execvp never returns, while a failed execvp returns -1
   // 4. Print some kind of error message if it returns -1
   // 5. return 1 to the caller of shellFind if execvp fails to allow loop to continue
-
+  int execvp_return_val = execvp("shellPrograms/find",args);
+  
+  //print error message if -1
+  if(execvp_return_val == -1){
+    printf("error in calling find using execvp\n");
+  }
   return 1;
+
 }
 
 /**
@@ -31,8 +37,14 @@ int shellDisplayFile(char **args)
   // 3. A successful execvp never returns, while a failed execvp returns -1
   // 4. Print some kind of error message if it returns -1
   // 5. return 1 to the caller of shellDisplayFile if execvp fails to allow loop to continue
-
+  int execvp_return_val = execvp("shellPrograms/display",args);
+  
+  //print error message if -1
+  if(execvp_return_val == -1){
+    printf("error in calling display using execvp\n");
+  }
   return 1;
+
 }
 
 /*
@@ -49,8 +61,14 @@ int shellListDirAll(char **args)
   // 3. A successful execvp never returns, while a failed execvp returns -1
   // 4. Print some kind of error message if it returns -1
   // 5. return 1 to the caller of shellListDirAll if execvp fails to allow loop to continue
-
+  int execvp_return_val = execvp("shellPrograms/listdirall",args);
+  
+  //print error message if -1
+  if(execvp_return_val == -1){
+    printf("error in calling listdirall using execvp\n");
+  }
   return 1;
+
 }
 
 /*
@@ -66,7 +84,12 @@ int shellListDir(char **args)
   // 3. A successful execvp never returns, while a failed execvp returns -1
   // 4. Print some kind of error message if it returns -1
   // 5. return 1 to the caller of shellListDir
-
+  int execvp_return_val = execvp("shellPrograms/listdir",args);
+  
+  //print error message if -1
+  if(execvp_return_val == -1){
+    printf("error in calling listdir using execvp\n");
+  }
   return 1;
 }
 
@@ -84,7 +107,12 @@ int shellCountLine(char **args)
   // 3. A successful execvp never returns, while a failed execvp returns -1
   // 4. Print some kind of error message if it returns -1
   // 5. return 1 to the caller of shellCountLine if execvp fails to allow loop to continue
-
+  int execvp_return_val = execvp("shellPrograms/countline",args);
+  
+  //print error message if -1
+  if(execvp_return_val == -1){
+    printf("error in calling countline using execvp\n");
+  }
   return 1;
 }
 
@@ -101,8 +129,14 @@ int shellSummond(char **args)
   // 3. A successful execvp never returns, while a failed execvp returns -1
   // 4. Print some kind of error message if it returns -1
   // 5. return 1 to the caller of shellDaemonize if execvp fails to allow loop to continue
-
+  int execvp_return_val = execvp("shellPrograms/summond",args);
+  
+  //print error message if -1
+  if(execvp_return_val == -1){
+    printf("error in calling summond using execvp\n");
+  }
   return 1;
+
 }
 
 
@@ -120,7 +154,12 @@ int shellCheckDaemon(char **args)
   // 3. A successful execvp never returns, while a failed execvp returns -1
   // 4. Print some kind of error message if it returns -1
   // 5. return 1 to the caller of shellCheckDaemon if execvp fails to allow loop to continue
-
+  int execvp_return_val = execvp("shellPrograms/checkdaemon",args);
+  
+  //print error message if -1
+  if(execvp_return_val == -1){
+    printf("error in calling checkdaemon using execvp\n");
+  }
   return 1;
 }
 
@@ -493,6 +532,6 @@ int main(int argc, char **argv)
  printf("The second token is %s \n", args[1]);
 
  shellExecuteInput(args);
- 
+
  return 0;
 }
