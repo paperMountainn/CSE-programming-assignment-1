@@ -399,7 +399,7 @@ int shellExecuteInput(char **args)
 
     // if command invalid, then exit 
     else{
-      printf("Invalid command received. Type help to see what commands are implemented \n");
+      printf("Invalid command received. Type help to see what commands are implemented. \n");
       return 1;
     }
 
@@ -505,10 +505,9 @@ void shellLoop(void)
   /** TASK 5 **/
   //write a loop where you do the following: 
 
-  if (shellExecuteInput(args) == 1){
 
     // 1. print the message prompt
-    printf("CSEShell>");
+    printf("CSEShell> ");
 
 
     // 2. clear the buffer and move the output to the console using fflush
@@ -520,8 +519,16 @@ void shellLoop(void)
     // 4. invoke shellTokenizeInput(line) and store the output at args**
     args = shellTokenizeInput(line);
 
+    if (shellExecuteInput(args) == 1){
+      shellLoop();
+    }
+    else{
+      exit(0);
+    }
+
     // 5. execute the tokens using shellExecuteInput(args)
     shellExecuteInput(args);
+
 
     // 6. free memory location containing the strings of characters
     free(line);
@@ -530,13 +537,6 @@ void shellLoop(void)
     free(args);
 
     // 8. check if shellExecuteInput returns 1. If yes, loop back to Step 1 and prompt user with new input. Otherwise, exit the shell. 
-
-  }
-
-
-
-
-
 
 }
 
@@ -550,16 +550,16 @@ int main(int argc, char **argv)
 
  printf("Shell Run successful. Running now: \n");
  
- char* line = shellReadLine();
- printf("The fetched line is : %s \n", line);
+//  char* line = shellReadLine();
+//  printf("The fetched line is : %s \n", line);
  
- char** args = shellTokenizeInput(line);
- printf("The first token is %s \n", args[0]);
- printf("The second token is %s \n", args[1]);
+//  char** args = shellTokenizeInput(line);
+//  printf("The first token is %s \n", args[0]);
+//  printf("The second token is %s \n", args[1]);
 
- shellExecuteInput(args);
+//  shellExecuteInput(args);
 
-   // Run command loop
+//    // Run command loop, T5 test code
   shellLoop();
 
   return 0;
