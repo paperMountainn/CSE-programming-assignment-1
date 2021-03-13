@@ -13,7 +13,7 @@ int shellFind(char **args)
   // 2. Check if execvp is successful by checking its return value
   // 3. A successful execvp never returns, while a failed execvp returns -1
   // 4. Print some kind of error message if it returns -1
-  // 5. return 1 to the caller of shellFind if execvp fails to allow loop to continue
+  // 5. return 1 to the caller of shellFind 
   int execvp_return_val = execvp("shellPrograms/find",args);
   
   //print error message if -1
