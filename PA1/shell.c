@@ -84,12 +84,13 @@ int shellListDir(char **args)
   // 3. A successful execvp never returns, while a failed execvp returns -1
   // 4. Print some kind of error message if it returns -1
   // 5. return 1 to the caller of shellListDir
-  int execvp_return_val = execvp("shellPrograms/listdir",args);
+  int execvp_return_val = execvp("shellPrograms/listdir", args);
   
   //print error message if -1
   if(execvp_return_val == -1){
     printf("error in calling listdir using execvp\n");
   }
+  
   return 1;
 }
 
@@ -113,6 +114,7 @@ int shellCountLine(char **args)
   if(execvp_return_val == -1){
     printf("error in calling countline using execvp\n");
   }
+  
   return 1;
 }
 
@@ -357,13 +359,13 @@ int shellExecuteInput(char **args)
 
       // child process do this
       else if (pid == 0){
-        printf("fork() works, waiting for child \n");
+        // printf("fork() works, waiting for child \n");
         // load a new program into the child
         // execlp basically replaced the entire process image, child executes a different thing from parent
 
         // execute command based on command_index, using builtin_commandFunc[] struc
         child_task_return =  builtin_commandFunc[command_index](args);
-        exit(1);
+        exit(0);
       }
 
       // 5. For the parent process, wait for the child process to complete and fetch the child's return value.
@@ -381,22 +383,25 @@ int shellExecuteInput(char **args)
         exit_status = WEXITSTATUS(status);
 
         //if child terminates properly, WIFEXITED(status) returns TRUE
-        if (WIFEXITED(status)){
+        // if (WIFEXITED(status)){
 
-          printf("exit status of child is %d \n", exit_status);
-          printf("Child has exited.\n");
+        //   printf("exit status of child is %d \n", exit_status);
+        //   printf("Child has exited.\n");
           
-        }
+        // }
 
         return exit_status;
 
 
-        }
       }
+    }
+
+      
+  
 
     // if command invalid, then exit 
     else{
-      printf("Invalid command received. Type help to see what commands are implemented \n");
+      printf("Invalid command received. Type help to see what commands are implemented. \n");
       return 1;
     }
 
@@ -496,21 +501,45 @@ void shellLoop(void)
   //instantiate local variables
   char *line;  // to accept the line of string from user
   char **args; // to tokenize them as arguments separated by spaces
-  int status;  // to tell the shell program whether to terminate shell or not
+  int status;  // to tell the shell program whether to terminate shell or not // not used...?
 
 
   /** TASK 5 **/
   //write a loop where you do the following: 
 
-  // 1. print the message prompt
-  // 2. clear the buffer and move the output to the console using fflush
-  // 3. invoke shellReadLine() and store the output at line
-  // 4. invoke shellTokenizeInput(line) and store the output at args**
-  // 5. execute the tokens using shellExecuteInput(args)
 
-  // 6. free memory location containing the strings of characters
-  // 7. free memory location containing char* to the first letter of each word in the input string
-  // 8. check if shellExecuteInput returns 1. If yes, loop back to Step 1 and prompt user with new input. Otherwise, exit the shell. 
+    // 1. print the message prompt
+    printf("CSEShell> ");
+
+
+    // 2. clear the buffer and move the output to the console using fflush
+    fflush(stdin);
+    fflush(stdout);
+
+    // 3. invoke shellReadLine() and store the output at line
+    line = shellReadLine();
+
+    // 4. invoke shellTokenizeInput(line) and store the output at args**
+    args = shellTokenizeInput(line);
+
+    // 8. check if shellExecuteInput returns 1. If yes, loop back to Step 1 and prompt user with new input. Otherwise, exit the shell. 
+    if (shellExecuteInput(args) == 1){
+      shellLoop();
+    }
+
+    else{
+      exit(0);
+    }
+
+    // 5. execute the tokens using shellExecuteInput(args)
+    shellExecuteInput(args);
+
+    // 6. free memory location containing the strings of characters
+    free(line);
+
+    // 7. free memory location containing char* to the first letter of each word in the input string
+    free(args);
+
 
 
 }
@@ -520,23 +549,23 @@ int main(int argc, char **argv)
   //original function
   // printf("Shell Run successful. Running now: \n");
 
-  // // Run command loop
-  // shellLoop();
-
-  // return 0;
 
   // Test Task 3
 
  printf("Shell Run successful. Running now: \n");
  
- char* line = shellReadLine();
- printf("The fetched line is : %s \n", line);
+//  char* line = shellReadLine();
+//  printf("The fetched line is : %s \n", line);
  
- char** args = shellTokenizeInput(line);
- printf("The first token is %s \n", args[0]);
- printf("The second token is %s \n", args[1]);
+//  char** args = shellTokenizeInput(line);
+//  printf("The first token is %s \n", args[0]);
+//  printf("The second token is %s \n", args[1]);
 
- shellExecuteInput(args);
+//  shellExecuteInput(args);
 
- return 0;
+//    // Run command loop, T5 test code
+  shellLoop();
+
+  return 0;
+
 }
