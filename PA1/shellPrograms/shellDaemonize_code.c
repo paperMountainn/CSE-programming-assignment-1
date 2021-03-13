@@ -13,7 +13,9 @@
 #include "shellPrograms.h"
 
 //TODO: change to appropriate path
+
 char *path = "/home/hannah/Downloads/CSE_PA1/CSE-programming-assignment-1/PA1/task7_logfile_test.txt";
+// char *path = "/home/pprmountain/Desktop/CSE-programming-assignment-1/PA1/task7_logfile_test.txt";
 
 /*This function summons a daemon process out of the current process*/
 static int create_daemon()

@@ -1,0 +1,2 @@
+FILE2.TXT contents displayed!!
+hellooo again 

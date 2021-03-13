@@ -15,6 +15,7 @@ int shellFind(char **args)
   // 4. Print some kind of error message if it returns -1
   // 5. return 1 to the caller of shellFind 
   int execvp_return_val = execvp("shellPrograms/find",args);
+  // int execvp_return_val = execvp("/home/pprmountain/Desktop/CSE-programming-assignment-1/PA1/shellPrograms/find",args);
   
   //print error message if -1
   if(execvp_return_val == -1){
@@ -38,11 +39,13 @@ int shellDisplayFile(char **args)
   // 4. Print some kind of error message if it returns -1
   // 5. return 1 to the caller of shellDisplayFile if execvp fails to allow loop to continue
   int execvp_return_val = execvp("shellPrograms/display",args);
+  // int execvp_return_val = execvp("/home/pprmountain/Desktop/CSE-programming-assignment-1/PA1/shellPrograms/display",args);
   
   //print error message if -1
   if(execvp_return_val == -1){
     printf("error in calling display using execvp\n");
   }
+
   return 1;
 
 }
@@ -61,8 +64,10 @@ int shellListDirAll(char **args)
   // 3. A successful execvp never returns, while a failed execvp returns -1
   // 4. Print some kind of error message if it returns -1
   // 5. return 1 to the caller of shellListDirAll if execvp fails to allow loop to continue
-  int execvp_return_val = execvp("shellPrograms/listdirall",args);
-  
+    
+  int execvp_return_val = execvp("shellPrograms/listdirall",args);  
+  // int execvp_return_val = execvp("/home/pprmountain/Desktop/CSE-programming-assignment-1/PA1/shellPrograms/listdirall",args);  
+
   //print error message if -1
   if(execvp_return_val == -1){
     printf("error in calling listdirall using execvp\n");
@@ -84,7 +89,10 @@ int shellListDir(char **args)
   // 3. A successful execvp never returns, while a failed execvp returns -1
   // 4. Print some kind of error message if it returns -1
   // 5. return 1 to the caller of shellListDir
-  int execvp_return_val = execvp("shellPrograms/listdir", args);
+  // int execvp_return_val = execvp("shellPrograms/listdir", args);
+
+  int execvp_return_val = execvp("shellPrograms/listdir",args);
+  // int execvp_return_val = execvp("/home/pprmountain/Desktop/CSE-programming-assignment-1/PA1/shellPrograms/listdir", args);
   
   //print error message if -1
   if(execvp_return_val == -1){
@@ -108,7 +116,9 @@ int shellCountLine(char **args)
   // 3. A successful execvp never returns, while a failed execvp returns -1
   // 4. Print some kind of error message if it returns -1
   // 5. return 1 to the caller of shellCountLine if execvp fails to allow loop to continue
+
   int execvp_return_val = execvp("shellPrograms/countline",args);
+  // int execvp_return_val = execvp("/home/pprmountain/Desktop/CSE-programming-assignment-1/PA1/shellPrograms/countline",args);
   
   //print error message if -1
   if(execvp_return_val == -1){
@@ -132,11 +142,13 @@ int shellSummond(char **args)
   // 4. Print some kind of error message if it returns -1
   // 5. return 1 to the caller of shellDaemonize if execvp fails to allow loop to continue
   int execvp_return_val = execvp("shellPrograms/summond",args);
+  // int execvp_return_val = execvp("/home/pprmountain/Desktop/CSE-programming-assignment-1/PA1/shellPrograms/summond",args);
   
   //print error message if -1
   if(execvp_return_val == -1){
     printf("error in calling summond using execvp\n");
   }
+
   return 1;
 
 }
@@ -156,7 +168,9 @@ int shellCheckDaemon(char **args)
   // 3. A successful execvp never returns, while a failed execvp returns -1
   // 4. Print some kind of error message if it returns -1
   // 5. return 1 to the caller of shellCheckDaemon if execvp fails to allow loop to continue
+
   int execvp_return_val = execvp("shellPrograms/checkdaemon",args);
+  // int execvp_return_val = execvp("/home/pprmountain/Desktop/CSE-programming-assignment-1/PA1/shellPrograms/checkdaemon",args);
   
   //print error message if -1
   if(execvp_return_val == -1){
@@ -501,44 +515,65 @@ void shellLoop(void)
   //instantiate local variables
   char *line;  // to accept the line of string from user
   char **args; // to tokenize them as arguments separated by spaces
-  int status;  // to tell the shell program whether to terminate shell or not // not used...?
+  int status;  // to tell the shell program whether to terminate shell or not 
 
 
   /** TASK 5 **/
   //write a loop where you do the following: 
 
+    do{
+      // 1. print the message prompt
+      printf("CSEShell> ");
+      // 2. clear the buffer and move the output to the console using fflush
+      fflush(stdin);
+      fflush(stdout);
 
-    // 1. print the message prompt
-    printf("CSEShell> ");
+      // 3. invoke shellReadLine() and store the output at line
+      line = shellReadLine();
+
+      // 4. invoke shellTokenizeInput(line) and store the output at args**
+      args = shellTokenizeInput(line);
+
+      // 5. execute the tokens using shellExecuteInput(args)
+      status = shellExecuteInput(args);
+
+      // 6. free memory location containing the strings of characters
+      free(line);
+
+      // 7. free memory location containing char* to the first letter of each word in the input string
+      free(args);
+
+      // 8. check if shellExecuteInput returns 1. If yes, loop back to Step 1 and prompt user with new input. Otherwise, exit the shell. 
+      if (status != 1){
+        break;
+      }
+
+    } while(1);
+
+    exit(1);
 
 
-    // 2. clear the buffer and move the output to the console using fflush
-    fflush(stdin);
-    fflush(stdout);
+  // while (1)
+  // {
+  //   fflush(stdout);
+  //   fflush(stdin);
+  //   printf("CSEShell> ");
+  //   fflush(stdout);
+  //   fflush(stdin);
+  //   line = shellReadLine();
+  //   printf("The fetched line is : %s \n", line);
+  //   args = shellTokenizeInput(line);
+  //   printf("The first token is %s \n", args[0]);
+  //   printf("The second token is %s \n", args[1]);
+  //   status = shellExecuteInput(args);
+  //   free(line);
+  //   free(args);
 
-    // 3. invoke shellReadLine() and store the output at line
-    line = shellReadLine();
-
-    // 4. invoke shellTokenizeInput(line) and store the output at args**
-    args = shellTokenizeInput(line);
-
-    // 8. check if shellExecuteInput returns 1. If yes, loop back to Step 1 and prompt user with new input. Otherwise, exit the shell. 
-    if (shellExecuteInput(args) == 1){
-      shellLoop();
-    }
-
-    else{
-      exit(0);
-    }
-
-    // 5. execute the tokens using shellExecuteInput(args)
-    shellExecuteInput(args);
-
-    // 6. free memory location containing the strings of characters
-    free(line);
-
-    // 7. free memory location containing char* to the first letter of each word in the input string
-    free(args);
+  //   if (status != 1)
+  //   {
+  //     break;
+  //   }
+  // }
 
 
 
@@ -565,7 +600,8 @@ int main(int argc, char **argv)
 
 //    // Run command loop, T5 test code
   shellLoop();
-
   return 0;
+
+
 
 }
