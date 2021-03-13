@@ -276,7 +276,7 @@ int shellUsage(char **args)
   if (args[1] == NULL)
   {
     fprintf(stderr, "CSEShell: expected argument to \"usage\"\n");
-    exit(0);
+    return 1;
   }
 
   // Check if the commands exist in the command list
