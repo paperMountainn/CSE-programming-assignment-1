@@ -84,12 +84,13 @@ int shellListDir(char **args)
   // 3. A successful execvp never returns, while a failed execvp returns -1
   // 4. Print some kind of error message if it returns -1
   // 5. return 1 to the caller of shellListDir
-  int execvp_return_val = execvp("shellPrograms/listdir",args);
+  int execvp_return_val = execvp("shellPrograms/listdir", args);
   
   //print error message if -1
   if(execvp_return_val == -1){
     printf("error in calling listdir using execvp\n");
   }
+  
   return 1;
 }
 
