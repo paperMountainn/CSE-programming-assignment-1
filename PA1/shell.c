@@ -470,6 +470,7 @@ char **shellTokenizeInput(char *line)
 
   // tokenBuffer is an array of tokenized inputs, which we can access with tokenBuffer[index]
   char** tokenBuffer = malloc(sizeof(char *) * bufferSize);
+  
   char* token = strtok(line, SHELL_INPUT_DELIM);
 
   int index = 0;
@@ -549,8 +550,8 @@ void shellLoop(void)
       }
 
     } while(1);
+    
 
-    exit(1);
 
 
 }
