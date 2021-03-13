@@ -553,30 +553,6 @@ void shellLoop(void)
     exit(1);
 
 
-  // while (1)
-  // {
-  //   fflush(stdout);
-  //   fflush(stdin);
-  //   printf("CSEShell> ");
-  //   fflush(stdout);
-  //   fflush(stdin);
-  //   line = shellReadLine();
-  //   printf("The fetched line is : %s \n", line);
-  //   args = shellTokenizeInput(line);
-  //   printf("The first token is %s \n", args[0]);
-  //   printf("The second token is %s \n", args[1]);
-  //   status = shellExecuteInput(args);
-  //   free(line);
-  //   free(args);
-
-  //   if (status != 1)
-  //   {
-  //     break;
-  //   }
-  // }
-
-
-
 }
 
 int main(int argc, char **argv)
