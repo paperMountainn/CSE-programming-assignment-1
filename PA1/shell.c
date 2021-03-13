@@ -1,5 +1,24 @@
 #include "shell.h"
 
+#define hannah
+//#define zishan
+
+#ifdef hannah
+char* pathRoot= "/home/hannah/Downloads/CSE_PA1/CSE-programming-assignment-1/PA1/shellPrograms/";
+
+#elif defined(zishan)
+char* pathRoot = "/home/pprmountain/Desktop/CSE-programming-assignment-1/PA1/shellPrograms/"; //check path here 
+
+#else
+char* pathRoot = "";
+#endif
+
+
+void pathHelperFunction(char* outputPath, char* fileName){
+  strcpy(outputPath,pathRoot);
+  strcat(outputPath,fileName);
+}
+
 /*
  List all files matching the name in args[1] under current directory and subdirectories
 */
@@ -14,8 +33,10 @@ int shellFind(char **args)
   // 3. A successful execvp never returns, while a failed execvp returns -1
   // 4. Print some kind of error message if it returns -1
   // 5. return 1 to the caller of shellFind 
-  int execvp_return_val = execvp("shellPrograms/find",args);
-  // int execvp_return_val = execvp("/home/pprmountain/Desktop/CSE-programming-assignment-1/PA1/shellPrograms/find",args);
+  char outputFile[100];
+  pathHelperFunction(outputFile,"find");
+  int execvp_return_val = execvp(outputFile,args);
+  //int execvp_return_val = execvp("/home/pprmountain/Desktop/CSE-programming-assignment-1/PA1/shellPrograms/find",args);
   
   //print error message if -1
   if(execvp_return_val == -1){
@@ -38,7 +59,9 @@ int shellDisplayFile(char **args)
   // 3. A successful execvp never returns, while a failed execvp returns -1
   // 4. Print some kind of error message if it returns -1
   // 5. return 1 to the caller of shellDisplayFile if execvp fails to allow loop to continue
-  int execvp_return_val = execvp("shellPrograms/display",args);
+  char outputFile[100];
+  pathHelperFunction(outputFile,"display");
+  int execvp_return_val = execvp(outputFile,args);
   // int execvp_return_val = execvp("/home/pprmountain/Desktop/CSE-programming-assignment-1/PA1/shellPrograms/display",args);
   
   //print error message if -1
@@ -64,17 +87,20 @@ int shellListDirAll(char **args)
   // 3. A successful execvp never returns, while a failed execvp returns -1
   // 4. Print some kind of error message if it returns -1
   // 5. return 1 to the caller of shellListDirAll if execvp fails to allow loop to continue
-    
-  int execvp_return_val = execvp("shellPrograms/listdirall",args);  
+  char outputFile[100];
+  pathHelperFunction(outputFile,"listdirall");
+  int execvp_return_val = execvp(outputFile,args);
   // int execvp_return_val = execvp("/home/pprmountain/Desktop/CSE-programming-assignment-1/PA1/shellPrograms/listdirall",args);  
 
   //print error message if -1
   if(execvp_return_val == -1){
     printf("error in calling listdirall using execvp\n");
   }
+
   return 1;
 
 }
+
 
 /*
 	List the items in the directory
@@ -90,15 +116,17 @@ int shellListDir(char **args)
   // 4. Print some kind of error message if it returns -1
   // 5. return 1 to the caller of shellListDir
   // int execvp_return_val = execvp("shellPrograms/listdir", args);
-
-  int execvp_return_val = execvp("shellPrograms/listdir",args);
-  // int execvp_return_val = execvp("/home/pprmountain/Desktop/CSE-programming-assignment-1/PA1/shellPrograms/listdir", args);
   
+  //printf("%s\n",strcat(pathRoot,"shellPrograms/listdir"));
+  char outputFile[100];
+  pathHelperFunction(outputFile,"listdir");
+  int execvp_return_val = execvp(outputFile,args);
+  // int execvp_return_val = execvp("/home/pprmountain/Desktop/CSE-programming-assignment-1/PA1/shellPrograms/listdir", args);
   //print error message if -1
   if(execvp_return_val == -1){
     printf("error in calling listdir using execvp\n");
   }
-  
+
   return 1;
 }
 
@@ -116,8 +144,9 @@ int shellCountLine(char **args)
   // 3. A successful execvp never returns, while a failed execvp returns -1
   // 4. Print some kind of error message if it returns -1
   // 5. return 1 to the caller of shellCountLine if execvp fails to allow loop to continue
-
-  int execvp_return_val = execvp("shellPrograms/countline",args);
+  char outputFile[100];
+  pathHelperFunction(outputFile,"countline");
+  int execvp_return_val = execvp(outputFile,args);
   // int execvp_return_val = execvp("/home/pprmountain/Desktop/CSE-programming-assignment-1/PA1/shellPrograms/countline",args);
   
   //print error message if -1
@@ -141,7 +170,9 @@ int shellSummond(char **args)
   // 3. A successful execvp never returns, while a failed execvp returns -1
   // 4. Print some kind of error message if it returns -1
   // 5. return 1 to the caller of shellDaemonize if execvp fails to allow loop to continue
-  int execvp_return_val = execvp("shellPrograms/summond",args);
+  char outputFile[100];
+  pathHelperFunction(outputFile,"summond");
+  int execvp_return_val = execvp(outputFile,args);
   // int execvp_return_val = execvp("/home/pprmountain/Desktop/CSE-programming-assignment-1/PA1/shellPrograms/summond",args);
   
   //print error message if -1
@@ -168,8 +199,9 @@ int shellCheckDaemon(char **args)
   // 3. A successful execvp never returns, while a failed execvp returns -1
   // 4. Print some kind of error message if it returns -1
   // 5. return 1 to the caller of shellCheckDaemon if execvp fails to allow loop to continue
-
-  int execvp_return_val = execvp("shellPrograms/checkdaemon",args);
+  char outputFile[100];
+  pathHelperFunction(outputFile,"checkdaemon");
+  int execvp_return_val = execvp(outputFile,args);
   // int execvp_return_val = execvp("/home/pprmountain/Desktop/CSE-programming-assignment-1/PA1/shellPrograms/checkdaemon",args);
   
   //print error message if -1
@@ -379,7 +411,7 @@ int shellExecuteInput(char **args)
 
         // execute command based on command_index, using builtin_commandFunc[] struc
         child_task_return =  builtin_commandFunc[command_index](args);
-        exit(0);
+        exit(1);
       }
 
       // 5. For the parent process, wait for the child process to complete and fetch the child's return value.

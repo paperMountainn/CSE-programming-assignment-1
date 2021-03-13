@@ -1,0 +1,22 @@
+6813 with FD 3
+PID 6813 Daemon writing line 0 to the file.  
+6819 with FD 3
+PID 6819 Daemon writing line 0 to the file.  
+6828 with FD 3
+PID 6828 Daemon writing line 0 to the file.  
+PID 6813 Daemon writing line 1 to the file.  
+PID 6819 Daemon writing line 1 to the file.  
+PID 6828 Daemon writing line 1 to the file.  
+PID 6813 Daemon writing line 2 to the file.  
+PID 6819 Daemon writing line 2 to the file.  
+PID 6828 Daemon writing line 2 to the file.  
+PID 6813 Daemon writing line 3 to the file.  
+PID 6819 Daemon writing line 3 to the file.  
+PID 6828 Daemon writing line 3 to the file.  
+PID 6813 Daemon writing line 4 to the file.  
+PID 6819 Daemon writing line 4 to the file.  
+PID 6828 Daemon writing line 4 to the file.  
+PID 6813 Daemon writing line 5 to the file.  
+PID 6819 Daemon writing line 5 to the file.  
+PID 6828 Daemon writing line 5 to the file.  
+PID 6813 Daemon writing line 6 to the file.  
