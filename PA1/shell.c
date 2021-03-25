@@ -1,7 +1,7 @@
 #include "shell.h"
 
-#define hannah
-//#define zishan
+// #define hannah
+#define zishan
 
 #ifdef hannah
 char* pathRoot= "/home/hannah/Downloads/CSE_PA1/CSE-programming-assignment-1/PA1/shellPrograms/";
@@ -88,6 +88,8 @@ int shellListDirAll(char **args)
   // 4. Print some kind of error message if it returns -1
   // 5. return 1 to the caller of shellListDirAll if execvp fails to allow loop to continue
   char outputFile[100];
+
+  // outputFile is the path here, we just append "listdirall" to it
   pathHelperFunction(outputFile,"listdirall");
   int execvp_return_val = execvp(outputFile,args);
   // int execvp_return_val = execvp("/home/pprmountain/Desktop/CSE-programming-assignment-1/PA1/shellPrograms/listdirall",args);  
@@ -583,9 +585,6 @@ void shellLoop(void)
 
     } while(1);
     
-
-
-
 }
 
 int main(int argc, char **argv)

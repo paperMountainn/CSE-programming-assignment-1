@@ -1,6 +1,8 @@
 #include "shellPrograms.h"
 
 /*  A program that prints how many summoned daemons are currently alive */
+
+// the number of daemons currently alive = number of lines in output.txt
 int shellCheckDaemon_code()
 {
 
@@ -10,6 +12,7 @@ int shellCheckDaemon_code()
    // sprintf(command, "ps -efj | grep summond  | grep -v tty > output.txt");
    
    // added this cause in my com, the grep command was showing up 
+   // direct stdout to output.txt
    sprintf(command, "ps -efj | grep summond | grep -v grep | grep -v tty > output.txt ");
 
    // TODO: Execute the command using system(command) and check its return value
@@ -43,7 +46,7 @@ int shellCheckDaemon_code()
       printf("File not found\n");
       return 1;
    } else{
-      //loop through the whole file
+      //loop through the whole file, same as T7
       while(getline(&buffer, &bufferSize,fp)!=-1){
          printf("%s\n",buffer);
          live_daemons++;
